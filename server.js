@@ -8,19 +8,69 @@ import express from 'express';
  * Declare Important Variables
  */
 // Start the server and listen on the specified port
-const NODE_ENV = process.env.NODE_ENV || 'production';
-const PORT = process.env.PORT || 3000;
-
-
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const NODE_ENV = process.env.NODE_ENV || 'production';
+const PORT = process.env.PORT || 3000;
 
 /**
  * Setup Express Server
  */
 const app = express();
+
+
+// Building a Course Catalog with Route Parameters
+// Setting Up Your Course Data
+// Since we have not yet covered databases or external
+// data sources, you will work with a hardcoded JavaScript object 
+// that represents course information. 
+// Copy and paste this course data structure into your server.js file, 
+// placing it near the top after your imports but before your routes:
+
+// Course data - place this after imports, before routes
+const courses = {
+    'CS121': {
+        id: 'CS121',
+        title: 'Introduction to Programming',
+        description: 'Learn programming fundamentals using JavaScript and basic web development concepts.',
+        credits: 3,
+        sections: [
+            { time: '9:00 AM', room: 'STC 392', professor: 'Brother Jack' },
+            { time: '2:00 PM', room: 'STC 394', professor: 'Sister Enkey' },
+            { time: '11:00 AM', room: 'STC 390', professor: 'Brother Keers' }
+        ]
+    },
+    'MATH110': {
+        id: 'MATH110',
+        title: 'College Algebra',
+        description: 'Fundamental algebraic concepts including functions, graphing, and problem solving.',
+        credits: 4,
+        sections: [
+            { time: '8:00 AM', room: 'MC 301', professor: 'Sister Anderson' },
+            { time: '1:00 PM', room: 'MC 305', professor: 'Brother Miller' },
+            { time: '3:00 PM', room: 'MC 307', professor: 'Brother Thompson' }
+        ]
+    },
+    'ENG101': {
+        id: 'ENG101',
+        title: 'Academic Writing',
+        description: 'Develop writing skills for academic and professional communication.',
+        credits: 3,
+        sections: [
+            { time: '10:00 AM', room: 'GEB 201', professor: 'Sister Anderson' },
+            { time: '12:00 PM', room: 'GEB 205', professor: 'Brother Davis' },
+            { time: '4:00 PM', room: 'GEB 203', professor: 'Sister Enkey' }
+        ]
+    }
+};
+
+//Settings and Middleware
+// Set EJS as the templating engine
+app.set('view engine', 'ejs');
+
+// Tell Express where to find your templates
+app.set('views', path.join(__dirname, 'src/views'));
 
 /**
  * Configure Express middleware
@@ -29,11 +79,8 @@ const app = express();
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Set EJS as the templating engine
-app.set('view engine', 'ejs');
 
-// Tell Express where to find your templates
-app.set('views', path.join(__dirname, 'src/views'));
+
 
 const name = process.env.NAME; //NEWWWW
 
@@ -74,6 +121,41 @@ app.get('/about', (req, res) => {
 app.get('/products', (req, res) => {
     const title = 'Our Products';
     res.render('products', { title });
+});
+
+// Course catalog list page
+app.get('/catalog', (req, res) => {
+    res.render('catalog', {
+        title: 'Course Catalog',
+        courses: courses
+    });
+});
+
+
+// Course detail page with route parameter
+// Course detail page with route parameter
+app.get('/catalog/:courseId', (req, res) => {
+    // Extract the course ID from the URL
+    const courseId = req.params.courseId;
+
+    // Look up the course in our data
+    const course = courses[courseId];
+
+    // Handle course not found
+    if (!course) {
+        const err = new Error(`Course ${courseId} not found`);
+        err.status = 404;
+        return next(err);
+    }
+
+    // Log the parameter for debugging
+    console.log('Viewing course:', courseId);
+
+    // Render the course detail template
+    res.render('course-detail', {
+        title: `${course.id} - ${course.title}`,
+        course: course
+    });
 });
 
 // Test route for 500 errors
