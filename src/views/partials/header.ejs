@@ -33,4 +33,8 @@
                 <li><a href="/products">Products</a></li>
             </ul>
         </nav>
+        <!-- Dynamic greeting added here -->
+        <div class="greeting-container">
+            <h1><%- locals.greeting ? greeting : 'Welcome!' %></h1>
+        </div>
     </header>
