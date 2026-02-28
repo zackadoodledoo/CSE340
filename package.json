@@ -2,7 +2,7 @@
   "name": "CSE340",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
@@ -14,12 +14,13 @@
   "license": "ISC",
   "packageManager": "pnpm@10.29.3",
   "dependencies": {
+    "corepack": "^0.34.6",
     "ejs": "^4.0.1",
     "express": "^5.2.1",
-    "corepack": "^0.34.6",
     "pg": "^8.19.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "ws": "^8.19.0"
   }
 }

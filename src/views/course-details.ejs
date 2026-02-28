@@ -1,5 +1,18 @@
 <%- include('partials/header') %>
 <main>
+    <h3>Debug Query Params:</h3>
+    <pre><%= JSON.stringify(queryParams, null, 2) %></pre>
+
+    <% if (queryParams.sort) { %>
+        <div class="sort-message">
+            <p>Currently sorted by: <%= queryParams.sort %></p>
+        </div>
+    <% } else { %>
+        <div class="sort-message">
+            <p>No sorting applied, using default sorting by time.</p>
+        </div>
+    <% } %>
+
     <div class="course-header">
         <h1><%= course.title %></h1>
         <p class="course-meta"><%= course.id %> • <%= course.credits %> credits</p>

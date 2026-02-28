@@ -1,34 +1,93 @@
 // Imports
-// Import express using ESM syntax
-import { fileURLToPath } from 'url';
-import path from 'path';
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import facultyRoutes from './src/routes/faculty.js';
+import { setupDatabase, testConnection } from './src/models/setup.js';
 
-/**
- * Declare Important Variables
- */
-// Start the server and listen on the specified port
-
+// Environment + Paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 const NODE_ENV = process.env.NODE_ENV || 'production';
 const PORT = process.env.PORT || 3000;
 
-/**
- * Setup Express Server
- */
+// Initialize Express
 const app = express();
 
+// View Engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'src/views'));
 
-// Building a Course Catalog with Route Parameters
-// Setting Up Your Course Data
-// Since we have not yet covered databases or external
-// data sources, you will work with a hardcoded JavaScript object 
-// that represents course information. 
-// Copy and paste this course data structure into your server.js file, 
-// placing it near the top after your imports but before your routes:
+// Static Files
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Course data - place this after imports, before routes
+// Global Template Variables
+app.use((req, res, next) => {
+    res.locals.NODE_ENV = NODE_ENV.toLowerCase();
+    res.locals.currentYear = new Date().getFullYear();
+    next();
+});
+
+// Greeting Middleware 
+app.use((req, res, next) => {
+    const hour = new Date().getHours();
+    res.locals.greeting =
+        hour < 12 ? "Good Morning" :
+        hour < 17 ? "Good Afternoon" :
+                    "Good Evening";
+    next();
+});
+
+// Request Logging Middleware
+app.use((req, res, next) => {
+    if (!req.path.startsWith('/.')) {
+        console.log(`${req.method} ${req.url}`);
+    }
+    next();
+});
+
+
+// Random Theme Middleware
+app.use((req, res, next) => {
+    const themes = ['blue-theme', 'green-theme', 'red-theme'];
+    res.locals.bodyClass = themes[Math.floor(Math.random() * themes.length)];
+    next();
+});
+
+// Global middleware to share query parameters with templates
+app.use((req, res, next) => {
+    res.locals.queryParams = req.query || {};
+    next();
+});
+
+
+// ------------------------------
+// Demo Page (Route-Specific Middleware)
+// ------------------------------
+
+// Route-specific middleware that sets custom headers
+const addDemoHeaders = (req, res, next) => {
+    res.setHeader('X-Demo-Page', 'true');
+    res.setHeader('X-Middleware-Demo', 'This route uses route-specific middleware');
+    next();
+};
+
+// Demo page route with header middleware
+app.get('/demo', addDemoHeaders, (req, res) => {
+    res.render('demo', {
+        title: 'Middleware Demo Page'
+    });
+});
+
+// ------------------------------
+// Faculty Routes
+// ------------------------------
+app.use('/faculty', facultyRoutes);
+
+// ------------------------------
+// Course Catalog Data
+// ------------------------------
 const courses = {
     'CS121': {
         id: 'CS121',
@@ -65,137 +124,30 @@ const courses = {
     }
 };
 
-
-
-//Settings and Middleware
-// Set EJS as the templating engine
-app.set('view engine', 'ejs');
-
-// Tell Express where to find your templates
-app.set('views', path.join(__dirname, 'src/views'));
-
-app.use((req, res, next) => {
-  res.locals.currentYear = new Date().getFullYear();
-  next();
-});
-
-
-/**
- * Configure Express middleware
- */
-// Middleware to make NODE_ENV available to all templates
-app.use((req, res, next) => {
-    res.locals.NODE_ENV = NODE_ENV.toLowerCase() || 'production';
-
-    // Continue to the next middleware or route handler
-    next();
-});
-
-app.use((req, res, next) => {
-    // Skip logging for routes that start with /. (like /.well-known/)
-    if (!req.path.startsWith('/.')) {
-    }
-    next(); // Pass control to the next middleware or route
-});
-
-// Middleware to add global data to all templates
-app.use((req, res, next) => {
-    // Add current year for copyright
-    res.locals.currentYear = new Date().getFullYear();
-
-    next();
-});
-
-
-
-// Global Middleware for time based greeting
-app.use((req, res, next) => {
-    const currentHour = new Date().getHours();
-    
-    if(currentHour < 12) {
-        res.locals.greeting = "<p>Good morning!</p>";
-    } else if (currentHour < 17) {
-        res.locals.greeting = "<p>Good afternoon!</p>";
-    } else {
-        res.locals.greeting = "<p>Good evening!</p>";
-    }
-    next();
-});
-
-// Middleware to set greeting globally
-app.use((req, res, next) => {
-    const hour = new Date().getHours();
-    let greeting = "Good Morning";
-    
-    if (hour >= 12 && hour < 17) {
-        greeting = "Good Afternoon";
-    } else if (hour >= 17) {
-        greeting = "Good Evening";
-    }
-    
-    // res.locals makes variables available to all EJS templates automatically
-    res.locals.greeting = greeting;
-    next();
-});
-
-
-// Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-
-
-const name = process.env.NAME; //NEWWWW
-
-// Add the following middleware to 
-// your server.js file after your existing middleware setup 
-// but before your routes:
-
-/**
- * Global template variables middleware
- * 
- * Makes common variables available to all EJS templates without having to pass
- * them individually from each route handler
- */
-app.use((req, res, next) => {
-    // Make NODE_ENV available to all templates
-    res.locals.NODE_ENV = NODE_ENV.toLowerCase() || 'production';
-
-    // Continue to the next middleware or route handler
-    next();
-});
-
-
-/**
- * Declare Routes replaced by Routes (below)
- */
-
-/**
- * Routes -- new
- */
+// ------------------------------
+// Main Routes
+// ------------------------------
 app.get('/', (req, res) => {
-    const title = 'Welcome Home';
-    res.render('home', { title });
-});
-app.get('/about', (req, res) => {
-    const title = 'About Me';
-    res.render('about', { title });
-});
-app.get('/products', (req, res) => {
-    const title = 'Our Products';
-    res.render('products', { title });
+    res.render('home', { title: 'Welcome Home' });
 });
 
-// Course catalog list page
+app.get('/about', (req, res) => {
+    res.render('about', { title: 'About Me' });
+});
+
+app.get('/products', (req, res) => {
+    res.render('products', { title: 'Our Products' });
+});
+
+// Course Catalog List
 app.get('/catalog', (req, res) => {
     res.render('catalog', {
         title: 'Course Catalog',
-        courses: courses
+        courses
     });
 });
 
-
-// Enhanced course detail route with sorting
+// Enhanced course detail route with sorting 
 app.get('/catalog/:courseId', (req, res, next) => {
     const courseId = req.params.courseId;
     const course = courses[courseId];
@@ -206,13 +158,9 @@ app.get('/catalog/:courseId', (req, res, next) => {
         return next(err);
     }
 
-    // Get sort parameter (default to 'time')
     const sortBy = req.query.sort || 'time';
-
-    // Create a copy of sections to sort
     let sortedSections = [...course.sections];
 
-    // Sort based on the parameter
     switch (sortBy) {
         case 'professor':
             sortedSections.sort((a, b) => a.professor.localeCompare(b.professor));
@@ -222,11 +170,8 @@ app.get('/catalog/:courseId', (req, res, next) => {
             break;
         case 'time':
         default:
-            // Keep original time order as default
             break;
     }
-
-    console.log(`Viewing course: ${courseId}, sorted by: ${sortBy}`);
 
     res.render('course-detail', {
         title: `${course.id} - ${course.title}`,
@@ -235,18 +180,18 @@ app.get('/catalog/:courseId', (req, res, next) => {
     });
 });
 
-// Test route for 500 errors
+// Test 500 Error
 app.get('/test-error', (req, res, next) => {
     const err = new Error('This is a test error');
     err.status = 500;
     next(err);
 });
 
-
-// When in development mode, start a WebSocket server for live reloading
+// ------------------------------
+// WebSocket Dev Server
+// ------------------------------
 if (NODE_ENV.includes('dev')) {
     const ws = await import('ws');
-
     try {
         const wsPort = parseInt(PORT) + 1;
         const wsServer = new ws.WebSocketServer({ port: wsPort });
@@ -263,40 +208,35 @@ if (NODE_ENV.includes('dev')) {
     }
 }
 
-// Catch-all route for 404 errors
+// ------------------------------
+// Error Handling
+// ------------------------------
 app.use((req, res, next) => {
     const err = new Error('Page Not Found');
     err.status = 404;
     next(err);
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
-    if (res.headersSent || res.finished) {
-        return next(err);
-    }
+    if (res.headersSent || res.finished) return next(err);
 
     const status = err.status || 500;
     const template = status === 404 ? '404' : '500';
 
-    // Prepare data for the template
-    const context = {
+    res.status(status).render(`errors/${template}`, {
         title: status === 404 ? 'Page Not Found' : 'Server Error',
         error: NODE_ENV === 'production' ? 'An error occurred' : err.message,
         stack: NODE_ENV === 'production' ? null : err.stack,
         NODE_ENV,
-        greeting: res.locals.greeting || "Welcome" 
-    };
-
-    res.status(status).render(`errors/${template}`, context);
+        greeting: res.locals.greeting
+    });
 });
 
-
-
-
-
-
-// Start the server and listen on the specified port
-app.listen(PORT, () => {
+// ------------------------------
+// Start Server
+// ------------------------------
+app.listen(PORT, async () => {
+    await setupDatabase();
+    await testConnection();
     console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });
