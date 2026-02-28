@@ -4,6 +4,6 @@ import { facultyListPage, facultyDetailPage } from "../controllers/faculty/facul
 const router = express.Router();
 
 router.get("/", facultyListPage);
-router.get("/:facultyId", facultyDetailPage);
+router.get("/:slug", facultyDetailPage);
 
 export default router;

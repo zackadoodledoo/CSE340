@@ -123,43 +123,56 @@ INSERT INTO courses (course_code, name, description, credit_hours, department_id
     ('ECON 151', 'Macroeconomics', 'Introduction to macroeconomic principles including national income, inflation, unemployment, and fiscal policy.', 3, 10, 'econ-151'),
     ('HIST 170', 'Foundations of the Restoration', 'History of the restoration of the Gospel of Jesus Christ through the Prophet Joseph Smith and the early Church.', 2, 11, 'hist-170');
 
+
 -- Insert faculty
-INSERT INTO faculty (first_name, last_name, office, phone, email, department_id, title, gender, slug) VALUES
-    ('Nathan', 'Jack', 'STC 310A', '208-496-7622', 'jackn@byui.edu', 0, 'Department Chair', 'm', 'nathan-jack'),
-    ('Jason', 'Allred', 'STC 310B', '208-496-7607', 'allredjas@byui.edu', 0, 'Associate Chair', 'm', 'jason-allred'),
-    ('Adam', 'Hayes', 'STC 310C', '208-496-3782', 'hayesa@byui.edu', 0, 'Associate Chair', 'm', 'adam-hayes'),
-    ('Nate', 'Phillips', 'STC 310D', '208-496-7625', 'phillipsn@byui.edu', 0, 'Associate Chair', 'm', 'nate-phillips'),
-    ('William', 'Clements', 'STC 310E', '208-496-7617', 'clementsw@byui.edu', 0, 'Program Lead', 'm', 'william-clements'),
-    ('Zachariah', 'Alvey', 'STC 330A', '208-496-3741', 'alveyz@byui.edu', 0, 'Professor', 'm', 'zachariah-alvey'),
-    ('Bradley', 'Armstrong', 'STC 330B', '208-496-3766', 'armstrongb@byui.edu', 0, 'Professor', 'm', 'bradley-armstrong'),
-    ('Lee', 'Barney', 'STC 330C', '208-496-3767', 'barneyl@byui.edu', 0, 'Professor', 'm', 'lee-barney'),
-    ('Rex', 'Barzee', 'STC 330D', '208-496-3768', 'barzeer@byui.edu', 0, 'Professor', 'm', 'rex-barzee'),
-    ('Scott', 'Burton', 'STC 330E', '208-496-7614', 'burtons@byui.edu', 0, 'Professor', 'm', 'scott-burton'),
-    ('Christopher', 'Keers', 'STC 330F', '208-496-7604', 'keersc@byui.edu', 0, 'Professor', 'm', 'christopher-keers'),
-    ('Julie Ann', 'Anderson', 'STC 330G', '208-496-4505', 'andersonju@byui.edu', 0, 'Professor', 'f', 'julie-ann-anderson'),
-    ('Joelle', 'Moen', 'GEB 205A', '208-496-4391', 'moenj@byui.edu', 2, 'Department Chair', 'f', 'joelle-moen'),
-    ('Josh', 'Allen', 'GEB 205B', '208-496-4366', 'allenj@byui.edu', 2, 'Professor', 'm', 'josh-allen'),
-    ('Matt', 'Babcock', 'GEB 205C', '208-496-4367', 'babcockm@byui.edu', 2, 'Professor', 'm', 'matt-babcock'),
-    ('Jeremy', 'Bailey', 'GEB 205D', '208-496-4405', 'baileyj@byui.edu', 2, 'Professor', 'm', 'jeremy-bailey'),
-    ('Tom', 'Ballard', 'GEB 205E', '208-496-4342', 'ballardt@byui.edu', 2, 'Professor', 'm', 'tom-ballard'),
-    ('Mark', 'Bennion', 'GEB 205F', '208-496-4368', 'bennionm@byui.edu', 2, 'Professor', 'm', 'mark-bennion'),
-    ('William', 'Brugger', 'GEB 205G', '208-496-4370', 'bruggerw@byui.edu', 2, 'Professor', 'm', 'william-brugger'),
-    ('Curtis', 'Chandler', 'GEB 205H', '208-496-4132', 'chandlerc@byui.edu', 2, 'Professor', 'm', 'curtis-chandler'),
-    ('Anna', 'Durfee', 'GEB 205I', '208-496-4304', 'durfeean@byui.edu', 2, 'Professor', 'f', 'anna-durfee'),
-    ('Elaine', 'Wagner', 'MC 301A', '208-496-7556', 'wagnere@byui.edu', 1, 'Department Chair', 'f', 'elaine-wagner'),
-    ('Brett', 'Amidan', 'MC 301B', '208-496-7563', 'amidanb@byui.edu', 1, 'Professor', 'm', 'brett-amidan'),
-    ('Dave', 'Brown', 'MC 301C', '208-496-7527', 'brownd@byui.edu', 1, 'Professor', 'm', 'dave-brown'),
-    ('Greg', 'Cameron', 'MC 301D', '208-496-7528', 'camerong@byui.edu', 1, 'Professor', 'm', 'greg-cameron'),
-    ('Paul', 'Cannon', 'MC 301E', '208-496-7565', 'cannonp@byui.edu', 1, 'Professor', 'm', 'paul-cannon'),
-    ('Paul', 'Cox', 'MC 301F', '208-496-7529', 'coxp@byui.edu', 1, 'Professor', 'm', 'paul-cox'),
-    ('Craig', 'Johnson', 'MC 301G', '208-496-7539', 'johnsonc@byui.edu', 1, 'Professor', 'm', 'craig-johnson'),
-    ('Chaz', 'Clark', 'MC 301H', '208-496-7535', 'clarkty@byui.edu', 1, 'Professor', 'm', 'chaz-clark'),
-    ('Robert', 'Colvin', 'LA 201A', '208-496-4308', 'colvinr@byui.edu', 3, 'Professor', 'm', 'robert-colvin'),
-    ('Scott', 'Galer', 'LA 201B', '208-496-4310', 'galers@byui.edu', 3, 'Professor', 'm', 'scott-galer'),
-    ('John', 'Ivers', 'LA 201C', '208-496-4313', 'iversj@byui.edu', 3, 'Professor', 'm', 'john-ivers'),
-    ('Jeremy', 'Lamoreaux', 'LA 201D', '208-496-4234', 'lamoreauxj@byui.edu', 3, 'Professor', 'm', 'jeremy-lamoreaux'),
-    ('Trever', 'McKay', 'LA 201E', '208-496-4312', 'mckaytr@byui.edu', 3, 'Department Chair', 'm', 'trever-mckay'),
-    ('Michael', 'Paul', 'LA 201F', '208-496-4315', 'paulm@byui.edu', 3, 'Professor', 'm', 'michael-paul');
+INSERT INTO faculty (
+    first_name,
+    last_name,
+    office,
+    phone,
+    email,
+    department_id,
+    title,
+    gender,
+    slug
+) VALUES
+('Brother', 'Jack', 'STC 392', '208-496-1234', 'jackb@byui.edu', 0, 'Associate Professor', 'M', 'brother-jack'),
+('Sister', 'Enkey', 'STC 394', '208-496-2345', 'enkeys@byui.edu', 0, 'Assistant Professor', 'F', 'sister-enkey'),
+('Brother', 'Keers', 'STC 390', '208-496-3456', 'keersb@byui.edu', 0, 'Professor', 'M', 'brother-keers'),
+('Sister', 'Anderson', 'MC 301', '208-496-4567', 'andersons@byui.edu', 1, 'Professor', 'F', 'sister-anderson'),
+('Brother', 'Miller', 'MC 305', '208-496-5678', 'millerb@byui.edu', 1, 'Associate Professor', 'M', 'brother-miller'),
+('Brother', 'Thompson', 'MC 307', '208-496-6789', 'thompsonb@byui.edu', 1, 'Assistant Professor', 'M', 'brother-thompson'),
+('Brother', 'Davis', 'GEB 205', '208-496-7890', 'davisb@byui.edu', 2, 'Professor', 'M', 'brother-davis'),
+('Brother', 'Wilson', 'GEB 301', '208-496-8901', 'wilsonb@byui.edu', 11, 'Associate Professor', 'M', 'brother-wilson'),
+('Sister', 'Roberts', 'GEB 305', '208-496-9012', 'robertss@byui.edu', 11, 'Assistant Professor', 'F', 'sister-roberts'),
+
+-- Additional faculty required by catalog
+('Nathan', 'Jack', 'STC 210', '208-496-1001', 'nathan-jack@byui.edu', 0, 'Instructor', 'M', 'nathan-jack'),
+('Jason', 'Allred', 'STC 211', '208-496-1002', 'jason-allred@byui.edu', 0, 'Instructor', 'M', 'jason-allred'),
+('Adam', 'Hayes', 'STC 212', '208-496-1003', 'adam-hayes@byui.edu', 0, 'Instructor', 'M', 'adam-hayes'),
+('Nate', 'Phillips', 'STC 213', '208-496-1004', 'nate-phillips@byui.edu', 0, 'Instructor', 'M', 'nate-phillips'),
+('William', 'Clements', 'STC 214', '208-496-1005', 'william-clements@byui.edu', 0, 'Instructor', 'M', 'william-clements'),
+('Zachariah', 'Alvey', 'STC 215', '208-496-1006', 'zachariah-alvey@byui.edu', 0, 'Instructor', 'M', 'zachariah-alvey'),
+('Bradley', 'Armstrong', 'STC 216', '208-496-1007', 'bradley-armstrong@byui.edu', 0, 'Instructor', 'M', 'bradley-armstrong'),
+('Lee', 'Barney', 'STC 217', '208-496-1008', 'lee-barney@byui.edu', 0, 'Instructor', 'M', 'lee-barney'),
+('Rex', 'Barzee', 'STC 218', '208-496-1009', 'rex-barzee@byui.edu', 0, 'Instructor', 'M', 'rex-barzee'),
+('Scott', 'Burton', 'STC 219', '208-496-1010', 'scott-burton@byui.edu', 0, 'Instructor', 'M', 'scott-burton'),
+('Christopher', 'Keers', 'STC 220', '208-496-1011', 'christopher-keers@byui.edu', 0, 'Instructor', 'M', 'christopher-keers'),
+('Julie Ann', 'Anderson', 'STC 221', '208-496-1012', 'julie-ann-anderson@byui.edu', 2, 'Instructor', 'F', 'julie-ann-anderson'),
+('Joelle', 'Moen', 'GEB 110', '208-496-1013', 'joelle-moen@byui.edu', 2, 'Instructor', 'F', 'joelle-moen'),
+('Josh', 'Allen', 'GEB 111', '208-496-1014', 'josh-allen@byui.edu', 2, 'Instructor', 'M', 'josh-allen'),
+('Matt', 'Babcock', 'GEB 112', '208-496-1015', 'matt-babcock@byui.edu', 2, 'Instructor', 'M', 'matt-babcock'),
+('Jeremy', 'Bailey', 'GEB 113', '208-496-1016', 'jeremy-bailey@byui.edu', 2, 'Instructor', 'M', 'jeremy-bailey'),
+('Tom', 'Ballard', 'GEB 114', '208-496-1017', 'tom-ballard@byui.edu', 2, 'Instructor', 'M', 'tom-ballard'),
+('Elaine', 'Wagner', 'MC 110', '208-496-1018', 'elaine-wagner@byui.edu', 1, 'Instructor', 'F', 'elaine-wagner'),
+('Brett', 'Amidan', 'MC 111', '208-496-1019', 'brett-amidan@byui.edu', 1, 'Instructor', 'M', 'brett-amidan'),
+('Robert', 'Colvin', 'LA 110', '208-496-1020', 'robert-colvin@byui.edu', 3, 'Instructor', 'M', 'robert-colvin'),
+('Scott', 'Galer', 'LA 111', '208-496-1021', 'scott-galer@byui.edu', 3, 'Instructor', 'M', 'scott-galer'),
+('John', 'Ivers', 'LA 112', '208-496-1022', 'john-ivers@byui.edu', 3, 'Instructor', 'M', 'john-ivers');
+
+
+
+
 
 -- Insert catalog entries
 INSERT INTO catalog (course_slug, faculty_slug, time, room) VALUES

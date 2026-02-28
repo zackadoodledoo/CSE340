@@ -1,9 +1,13 @@
 import express from "express";
-import { facultyListPage, facultyDetailPage } from "./controllers/faculty/faculty.js";
+import { facultyListPage} from "./controllers/faculty/faculty.js";
+import { catalogPage, courseDetailPage } from "./controllers/catalog/catalog.js";
 
 const router = express.Router();
 
 router.get("/faculty", facultyListPage);
-router.get("/faculty/:facultyId", facultyDetailPage);
+
+/* CATALOG ROUTES */
+router.get("/catalog", catalogPage);
+router.get("/catalog/:id", courseDetailPage);
 
 export default router;
