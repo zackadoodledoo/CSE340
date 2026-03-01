@@ -6,6 +6,8 @@ import { aboutPage } from './about.js';
 import { catalogPage, courseDetailPage } from "./catalog/catalog.js";
 import { facultyListPage, facultyDetailPage } from "./faculty/faculty.js";
 
+import registrationRoutes from './forms/registration.js';
+
 const router = express.Router();
 
 /* ---------------- Router-Level Middleware ---------------- */

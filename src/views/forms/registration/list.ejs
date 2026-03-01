@@ -1,0 +1,59 @@
+<%- include('../../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+
+    <!-- Check if users array exists and has content -->
+    <% if (users && users.length > 0) { %>
+
+        <div class="users-list">
+
+            <!-- Loop through users array -->
+            <% users.forEach(user => { %>
+
+                <div class="user-card">
+
+                    <div class="user-header">
+                        <!-- User name -->
+                        <h3><%= user.name %></h3>
+
+                        <!-- User ID -->
+                        <span class="user-id">ID: <%= user.id %></span>
+                    </div>
+
+                    <div class="user-details">
+
+                        <div class="detail-item">
+                            <!-- Email label -->
+                            <div class="label">Email</div>
+
+                            <!-- Email value -->
+                            <div class="value"><%= user.email %></div>
+                        </div>
+
+                        <div class="detail-item">
+                            <!-- Registered label -->
+                            <div class="label">Registered</div>
+
+                            <!-- Formatted date -->
+                            <div class="value">
+                                <%= new Date(user.created_at).toLocaleDateString() %>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    <% } else { %>
+
+        <!-- No users fallback -->
+        <p class="no-users">No users registered yet.</p>
+
+    <% } %>
+
+</main>
+<%- include('../../partials/footer') %>
