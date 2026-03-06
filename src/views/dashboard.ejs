@@ -1,31 +1,53 @@
 <%- include('partials/header') %>
 <main>
-    <div class="dashboard">
-        <h1>Welcome to Your Dashboard</h1>
-        <p>
-            This is a protected page that requires authentication. Only logged-in users can access this content.
-        </p>
+  <div class="dashboard">
+    <h1>Welcome to Your Dashboard</h1>
+    <p>
+      This is a protected page that requires authentication. Only logged-in users can access this content.
+    </p>
 
-        <div class="user-info">
-            <h2>Your Account Information</h2>
-            <!-- TODO: Display user.name in a div with class="user-detail" -->
-            <!-- TODO: Use span with class="label" for "Name:" and span with class="value" for the actual name -->
-            <!-- TODO: Display user.email in the same format -->
-            <!-- TODO: Display user.created_at formatted with toLocaleDateString() -->
-        </div>
+    <div class="user-info">
+      <h2>Your Account Information</h2>
 
-        <div class="session-debug">
-            <h3>Session Information (For Learning Purposes)</h3>
-            <p><em>This section shows your current session data for educational purposes.</em></p>
-            <pre><%= JSON.stringify(sessionData, null, 2) %></pre>
-            <p>
-                <strong>If you see a password property in the above object you have a security vulnerability, fix it!</strong>
-            </p>
-        </div>
+      <div class="user-detail">
+        <span class="label">Name:</span>
+        <span class="value"><%= user && user.name ? user.name : '—' %></span>
+      </div>
 
-        <div class="dashboard-actions">
-            <a href="/logout" class="logout-button">Logout</a>
-        </div>
+      <div class="user-detail">
+        <span class="label">Email:</span>
+        <span class="value"><%= user && user.email ? user.email : '—' %></span>
+      </div>
+
+      <div class="user-detail">
+        <span class="label">Member since:</span>
+        <span class="value">
+          <%= user && user.created_at ? new Date(user.created_at).toLocaleDateString() : '—' %>
+        </span>
+      </div>
     </div>
+
+    <div class="session-debug">
+      <h3>Session Information (For Learning Purposes)</h3>
+      <p><em>This section shows your current session data for educational purposes.</em></p>
+
+      <% 
+        // Sanitize sessionData for display (best: do this in controller instead)
+        const safeSession = sessionData ? JSON.parse(JSON.stringify(sessionData)) : {};
+        if (safeSession.user && safeSession.user.password) delete safeSession.user.password;
+        if (safeSession.password) delete safeSession.password;
+      %>
+
+      <pre><%= JSON.stringify(safeSession, null, 2) %></pre>
+
+      <p>
+        <strong>If you see a password property in the above object you have a security vulnerability, fix it!</strong>
+      </p>
+    </div>
+
+    <div class="dashboard-actions">
+      <a href="/logout" class="logout-button">Logout</a>
+    </div>
+  </div>
 </main>
 <%- include('partials/footer') %>

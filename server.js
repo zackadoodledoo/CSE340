@@ -4,23 +4,22 @@ import { fileURLToPath } from 'url';
 import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { caCert } from './src/models/db.js';
+import flash from './src/middleware/flash.js';
+
 
 // Import MVC components
 import routes from './src/controllers/routes.js';
 import { addLocalVariables } from './src/middleware/global.js';
 
-/**
- * Server configuration
- */
+//Server config 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 const PORT = process.env.PORT || 3000;
 
-/**
- * Setup Express Server
- */
+// Setup Express Server
+
 const app = express();
 
 // Initialize PostgreSQL session store
@@ -68,7 +67,14 @@ app.set('views', path.join(__dirname, 'src/views'));
 /**
  * Global Middleware
  */
+
+// Make sure template locals and flash are registered after session middleware
 app.use(addLocalVariables);
+app.use(flash);
+
+
+
+
 
 /**
  * Routes
